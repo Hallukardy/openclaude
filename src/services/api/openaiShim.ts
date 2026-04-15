@@ -27,6 +27,7 @@ import {
   refreshCodexAccessTokenIfNeeded,
 } from '../../utils/codexCredentials.js'
 import { logForDebugging } from '../../utils/debug.js'
+import { keyPoolManager } from '../../utils/keyPoolManager.js'
 import { isBareMode, isEnvTruthy } from '../../utils/envUtils.js'
 import { resolveGeminiCredential } from '../../utils/geminiAuth.js'
 import { hydrateGeminiAccessTokenFromSecureStorage } from '../../utils/geminiCredentials.js'
@@ -1424,7 +1425,11 @@ class OpenAIShimMessages {
       signal: options?.signal,
     }
 
-    const maxAttempts = isGithub ? GITHUB_429_MAX_RETRIES : 1
+    const profileId = process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID ?? ''
+    const keyPoolSize = profileId ? keyPoolManager.getPoolSize(profileId) : 0
+    const maxAttempts = isGithub
+      ? GITHUB_429_MAX_RETRIES
+      : Math.max(1, keyPoolSize)
     let response: Response | undefined
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
       response = await fetch(chatCompletionsUrl, fetchInit)
@@ -1443,6 +1448,25 @@ class OpenAIShimMessages {
         )
         await sleepMs(delaySec * 1000)
         continue
+      }
+      // Key pool rotation: on 429 from non-GitHub providers, try next API key
+      if (
+        !isGithub &&
+        response.status === 429 &&
+        attempt < maxAttempts - 1 &&
+        profileId
+      ) {
+        const nextKey = keyPoolManager.rotateKey(profileId)
+        if (nextKey) {
+          await response.text().catch(() => {})
+          logForDebugging(`[key-pool] 429 received — rotating to key ${attempt + 2}/${maxAttempts} for profile ${profileId}`)
+          if (isAzure) {
+            headers['api-key'] = nextKey
+          } else {
+            headers.Authorization = `Bearer ${nextKey}`
+          }
+          continue
+        }
       }
       // Read body exactly once here — Response body is a stream that can only
       // be consumed a single time.

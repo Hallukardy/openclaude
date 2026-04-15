@@ -188,6 +188,8 @@ export type ProviderProfile = {
   baseUrl: string
   model: string
   apiKey?: string
+  /** Additional API keys for the same provider. On 429, the key pool rotates through these automatically. */
+  apiKeys?: string[]
 }
 
 export type GlobalConfig = {

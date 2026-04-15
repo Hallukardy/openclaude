@@ -4,6 +4,7 @@ import {
   saveGlobalConfig,
   type ProviderProfile,
 } from './config.js'
+import { keyPoolManager } from './keyPoolManager.js'
 import type { ModelOption } from './model/modelOptions.js'
 
 export type ProviderPreset =
@@ -27,6 +28,8 @@ export type ProviderProfileInput = {
   baseUrl: string
   model: string
   apiKey?: string
+  /** Additional API keys — rotated automatically on 429. */
+  apiKeys?: string[]
 }
 
 export type ProviderPresetDefaults = Omit<ProviderProfileInput, 'provider'> & {
@@ -63,6 +66,10 @@ function sanitizeProfile(profile: ProviderProfile): ProviderProfile | null {
     return null
   }
 
+  const apiKeys = profile.apiKeys
+    ?.map(k => k.trim())
+    .filter(Boolean)
+
   return {
     id,
     name,
@@ -70,6 +77,7 @@ function sanitizeProfile(profile: ProviderProfile): ProviderProfile | null {
     baseUrl,
     model,
     apiKey: trimOrUndefined(profile.apiKey),
+    ...(apiKeys && apiKeys.length > 0 ? { apiKeys } : {}),
   }
 }
 
@@ -104,6 +112,7 @@ function toProfile(
     baseUrl: input.baseUrl,
     model: input.model,
     apiKey: input.apiKey,
+    apiKeys: input.apiKeys,
   })
 }
 
@@ -369,6 +378,10 @@ export function clearProviderProfileEnvFromProcessEnv(
 
 export function applyProviderProfileToProcessEnv(profile: ProviderProfile): void {
   clearProviderProfileEnvFromProcessEnv()
+  // Reset key pools from previous profile before initializing the new one
+  keyPoolManager.clearAll()
+  keyPoolManager.initPool(profile.id, profile.apiKey, profile.apiKeys)
+
   process.env[PROFILE_ENV_APPLIED_FLAG] = '1'
   process.env[PROFILE_ENV_APPLIED_ID] = profile.id
 
