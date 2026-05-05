@@ -1,0 +1,63 @@
+{
+  "version": "1.0.0",
+  "agents": [
+    {
+      "name": "openclaude-planner",
+      "description": "Creates executable phase plans with task breakdown, dependency analysis, and goal-backward verification.",
+      "file": "planner.md",
+      "category": "planning",
+      "completionMarkers": ["## PLANNING COMPLETE"],
+      "tools": ["Read", "Write", "Bash", "Glob", "Grep", "WebFetch"],
+      "model": "claude-opus-4-7",
+      "whenToUse": "When you need to plan implementation of a feature, phase, or major refactoring"
+    },
+    {
+      "name": "openclaude-executor",
+      "description": "Executes OpenClaude plans with atomic commits, deviation handling, checkpoint protocols, and state management.",
+      "file": "executor.md",
+      "category": "execution",
+      "completionMarkers": ["## PLAN COMPLETE", "## CHECKPOINT REACHED"],
+      "tools": ["Read", "Write", "Edit", "Bash", "Grep", "Glob"],
+      "model": "claude-opus-4-7",
+      "whenToUse": "When you have a PLAN.md and need to execute it atomically with per-task commits"
+    },
+    {
+      "name": "openclaude-debugger",
+      "description": "Investigates bugs using scientific method, manages debug sessions, handles checkpoints. Uses hypothesis-driven debugging with iterative refinement.",
+      "file": "debugger.md",
+      "category": "debugging",
+      "completionMarkers": ["## DEBUG COMPLETE", "## ROOT CAUSE FOUND", "## CHECKPOINT REACHED"],
+      "tools": ["Read", "Write", "Edit", "Bash", "Grep", "Glob"],
+      "model": "claude-opus-4-7",
+      "whenToUse": "When you have a bug to investigate and need systematic hypothesis-driven debugging"
+    },
+    {
+      "name": "openclaude-code-reviewer",
+      "description": "Automated code audit with bug detection, security checks (OWASP top 10), code quality analysis, and style compliance. Produces REVIEW.md with severity-classified findings.",
+      "file": "code-reviewer.md",
+      "category": "review",
+      "completionMarkers": ["## REVIEW COMPLETE"],
+      "tools": ["Read", "Bash", "Grep", "Glob"],
+      "model": "claude-opus-4-7",
+      "whenToUse": "When you need automated code review of changed files for bugs, security, and quality issues"
+    }
+  ],
+  "categories": {
+    "planning": {
+      "description": "Agents for planning and design",
+      "icon": "📋"
+    },
+    "execution": {
+      "description": "Agents for implementing plans atomically",
+      "icon": "⚙️"
+    },
+    "debugging": {
+      "description": "Agents for investigating bugs systematically",
+      "icon": "🔍"
+    },
+    "review": {
+      "description": "Agents for code review and quality assurance",
+      "icon": "✅"
+    }
+  }
+}

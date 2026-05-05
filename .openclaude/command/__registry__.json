@@ -1,0 +1,167 @@
+{
+  "version": "1.0.0",
+  "commands": [
+    {
+      "name": "provider:status",
+      "category": "provider-management",
+      "description": "Show health summary of all provider keys and budgets",
+      "file": "provider.md",
+      "frequency": "daily",
+      "usage": "bun run provider:status"
+    },
+    {
+      "name": "provider:quota",
+      "category": "provider-management",
+      "description": "View quota cache and hit rate statistics",
+      "file": "provider.md",
+      "frequency": "on-demand",
+      "usage": "bun run provider:quota [--provider=NAME] [--stats]"
+    },
+    {
+      "name": "provider:lock",
+      "category": "provider-management",
+      "description": "View and manage auto-lockout registry",
+      "file": "provider.md",
+      "frequency": "on-demand",
+      "usage": "bun run provider:lock [--unlock=KEY_ID] [--reset-all]"
+    },
+    {
+      "name": "provider:fallback",
+      "category": "provider-management",
+      "description": "View and test fallback chains",
+      "file": "provider.md",
+      "frequency": "on-demand",
+      "usage": "bun run provider:fallback [--test] [--provider=NAME]"
+    },
+    {
+      "name": "provider:costs",
+      "category": "provider-management",
+      "description": "View monthly spending and budget alerts",
+      "file": "provider.md",
+      "frequency": "weekly",
+      "usage": "bun run provider:costs [--key=ID] [--detailed]"
+    },
+    {
+      "name": "doctor:runtime",
+      "category": "diagnostics",
+      "description": "Full runtime health check with detailed reports",
+      "file": "doctor.md",
+      "frequency": "on-troubleshoot",
+      "usage": "bun run doctor:runtime [--verbose] [--json]"
+    },
+    {
+      "name": "doctor:config",
+      "category": "diagnostics",
+      "description": "Validate configuration files without running",
+      "file": "doctor.md",
+      "frequency": "on-change",
+      "usage": "bun run doctor:config [--strict]"
+    },
+    {
+      "name": "doctor:dependencies",
+      "category": "diagnostics",
+      "description": "Check installed dependencies and security",
+      "file": "doctor.md",
+      "frequency": "weekly",
+      "usage": "bun run doctor:dependencies [--outdated] [--security]"
+    },
+    {
+      "name": "doctor:database",
+      "category": "diagnostics",
+      "description": "Check SQLite database integrity",
+      "file": "doctor.md",
+      "frequency": "monthly",
+      "usage": "bun run doctor:database [--repair]"
+    },
+    {
+      "name": "doctor:logs",
+      "category": "diagnostics",
+      "description": "Analyze recent logs for errors and patterns",
+      "file": "doctor.md",
+      "frequency": "on-demand",
+      "usage": "bun run doctor:logs [--level=ERROR] [--tail=100]"
+    },
+    {
+      "name": "benchmark:providers",
+      "category": "performance",
+      "description": "Compare provider performance (latency, cost, quality)",
+      "file": "benchmark.md",
+      "frequency": "weekly",
+      "usage": "bun run benchmark:providers [--duration=60] [--concurrent=5]"
+    },
+    {
+      "name": "benchmark:models",
+      "category": "performance",
+      "description": "Compare specific models within a provider",
+      "file": "benchmark.md",
+      "frequency": "on-demand",
+      "usage": "bun run benchmark:models --provider=NAME [--models=LIST]"
+    },
+    {
+      "name": "benchmark:fallback",
+      "category": "performance",
+      "description": "Test fallback chain performance under simulated failures",
+      "file": "benchmark.md",
+      "frequency": "monthly",
+      "usage": "bun run benchmark:fallback --failure-rate=0.2 [--duration=60]"
+    },
+    {
+      "name": "benchmark:cost-analysis",
+      "category": "performance",
+      "description": "Detailed cost breakdown for a workload",
+      "file": "benchmark.md",
+      "frequency": "monthly",
+      "usage": "bun run benchmark:cost-analysis --workload=NAME [--quantity=1000]"
+    },
+    {
+      "name": "release:checklist",
+      "category": "release",
+      "description": "Interactive release validation checklist",
+      "file": "release.md",
+      "frequency": "per-release",
+      "usage": "bun run release:checklist [--dry-run]"
+    },
+    {
+      "name": "release:changelog",
+      "category": "release",
+      "description": "Generate changelog from commits since last release",
+      "file": "release.md",
+      "frequency": "per-release",
+      "usage": "bun run release:changelog [--since=TAG] [--draft]"
+    },
+    {
+      "name": "release:version",
+      "category": "release",
+      "description": "Bump version in package.json and git tag",
+      "file": "release.md",
+      "frequency": "per-release",
+      "usage": "bun run release:version [--major|--minor|--patch]"
+    },
+    {
+      "name": "release:publish",
+      "category": "release",
+      "description": "Build, tag, and publish to npm and GitHub",
+      "file": "release.md",
+      "frequency": "per-release",
+      "usage": "bun run release:publish [--version=VERSION]"
+    }
+  ],
+  "categories": {
+    "provider-management": {
+      "icon": "🔑",
+      "description": "Manage API keys, quotas, budgets, and fallback chains"
+    },
+    "diagnostics": {
+      "icon": "🔍",
+      "description": "Runtime health checks and configuration validation"
+    },
+    "performance": {
+      "icon": "⚡",
+      "description": "Benchmark providers and analyze performance"
+    },
+    "release": {
+      "icon": "🚀",
+      "description": "Release automation and version management"
+    }
+  }
+}

@@ -2,9 +2,13 @@ import { feature } from 'bun:bundle'
 import { shouldAutoEnableClaudeInChrome } from 'src/utils/claudeInChrome/setup.js'
 import { registerBatchSkill } from './batch.js'
 import { registerClaudeInChromeSkill } from './claudeInChrome.js'
+import { registerCodeReviewerAgent } from './codeReviewer.js'
+import { registerDebuggerAgent } from './debugger.js'
 import { registerDebugSkill } from './debug.js'
+import { registerExecutorAgent } from './executor.js'
 import { registerKeybindingsSkill } from './keybindings.js'
 import { registerLoopSkill } from './loop.js'
+import { registerPlannerAgent } from './planner.js'
 import { registerSimplifySkill } from './simplify.js'
 import { registerUpdateConfigSkill } from './updateConfig.js'
 
@@ -18,11 +22,18 @@ import { registerUpdateConfigSkill } from './updateConfig.js'
  * 3. Import and call that function here
  */
 export function initBundledSkills(): void {
+  // Core skills
   registerUpdateConfigSkill()
   registerKeybindingsSkill()
   registerDebugSkill()
   registerSimplifySkill()
   registerBatchSkill()
+
+  // GSD agents (planning, execution, debugging, review)
+  registerPlannerAgent()
+  registerExecutorAgent()
+  registerDebuggerAgent()
+  registerCodeReviewerAgent()
   if (feature('KAIROS') || feature('KAIROS_DREAM')) {
     /* eslint-disable @typescript-eslint/no-require-imports */
     const { registerDreamSkill } = require('./dream.js')

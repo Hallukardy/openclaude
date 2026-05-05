@@ -1,0 +1,84 @@
+{
+  "version": "1.0.0",
+  "skills": [
+    {
+      "name": "caveman",
+      "description": "Token compression skill. Shrink context, save tokens, preserve accuracy.",
+      "file": "caveman.md",
+      "category": "context-optimization",
+      "intensity_levels": ["lite", "mid", "ultra"],
+      "compression_ratio": {
+        "lite": 0.4,
+        "mid": 0.6,
+        "ultra": 0.75
+      },
+      "use_cases": [
+        "Compress CLAUDE.md memory files",
+        "Shrink project documentation",
+        "Reduce context size for long conversations",
+        "Save tokens on recurring files"
+      ],
+      "preserves": [
+        "Code blocks (fenced or indented)",
+        "Inline code (backtick content)",
+        "URLs and links",
+        "File paths",
+        "Commands (npm, git, bun, etc)",
+        "Library names and API names",
+        "Version numbers and dates",
+        "Heading text (exact)",
+        "Table structure",
+        "Bullet lists"
+      ],
+      "limitations": [
+        "Works on natural language prose only",
+        "Code files (*.ts, *.js, *.py, *.json, *.yaml) skipped",
+        "Security-critical content preserved verbatim",
+        "Backup files (*.original.md) never compressed"
+      ]
+    },
+    {
+      "name": "skill-auditor",
+      "description": "Expert auditor for Claude Code Skills. Validates SKILL.md files against best practices.",
+      "file": "skill-auditor.md",
+      "category": "quality-assurance",
+      "checks": [
+        "YAML frontmatter (name, description, format)",
+        "XML structure (required tags, proper nesting)",
+        "Content quality (clarity, conciseness, specificity)",
+        "Anti-patterns (missing tags, markdown headings, hybrid styles)"
+      ],
+      "required_tags": [
+        "objective",
+        "quick_start",
+        "success_criteria"
+      ],
+      "conditional_tags": [
+        "context",
+        "workflow",
+        "examples",
+        "validation",
+        "limitations",
+        "security_checklist",
+        "error_handling"
+      ],
+      "use_cases": [
+        "Audit new skills before merging",
+        "Review skill documentation quality",
+        "Ensure consistent structure across skills",
+        "Catch common mistakes early"
+      ],
+      "output_format": "Markdown report with Critical/Recommendations/Strengths sections"
+    }
+  ],
+  "categories": {
+    "context-optimization": {
+      "description": "Skills for reducing context size and token usage",
+      "icon": "📦"
+    },
+    "quality-assurance": {
+      "description": "Skills for validating and reviewing other skills and code",
+      "icon": "✅"
+    }
+  }
+}
